@@ -1,25 +1,20 @@
-"""
--
-"""
 from datetime import datetime
 from rest_framework.response import Response
 from rest_framework.decorators import APIView
-from rest_framework.status import HTTP_200_OK, HTTP_409_CONFLICT
+from rest_framework.status import HTTP_200_OK, HTTP_409_CONFLICT, HTTP_404_NOT_FOUND
 from .functions.generate_random_url import generate_random_url
 from .models import UrlModel
-from .serializers import LinkSerializer
+from .serializers import UrlModelSerializer, UrlModelGetSerializer
+from django.middleware import csrf
 
 
 class Url(APIView):
-    """
-    -
-    """
 
     def post(self, request):
 
         def CreateUrlObject(short_url, long_url):
 
-            new_url = Url.objects.create(
+            new_url = UrlModel.objects.create(
                 short_url=short_url,
                 long_url=long_url,
                 clicks=0,
@@ -54,7 +49,7 @@ class Url(APIView):
 
             response = {
                 "message": "Url created successfully",
-                "url": LinkSerializer(new_url).data
+                "url": UrlModelSerializer(new_url).data
             }
             if new_url:
                 return Response(response, status=HTTP_200_OK)
@@ -66,9 +61,20 @@ class Url(APIView):
 
             response = {
                 "message": "Url created successfully",
-                "url": LinkSerializer(new_url).data
+                "url": UrlModelSerializer(new_url).data
             }
 
             return Response(response, status=HTTP_200_OK)
         else:
             return Response("Error, url not created", HTTP_409_CONFLICT)
+
+    def get(self, request, short_url):
+
+        try:
+            url_object = UrlModel.objects.get(short_url=short_url)
+            return Response(UrlModelGetSerializer(url_object).data, status=HTTP_200_OK)
+        except UrlModel.DoesNotExist:
+            response = {
+                "message": "The url does not exist",
+                "code": 0}
+            return Response(response, status=HTTP_404_NOT_FOUND)

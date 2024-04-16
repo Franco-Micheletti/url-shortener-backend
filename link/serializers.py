@@ -6,7 +6,7 @@ from rest_framework import serializers
 from .models import UrlModel
 
 
-class LinkSerializer(serializers.ModelSerializer):
+class UrlModelSerializer(serializers.ModelSerializer):
     """
     Link Serializer
     """
@@ -17,3 +17,15 @@ class LinkSerializer(serializers.ModelSerializer):
         model = UrlModel
         fields = ('short_url',
                   )
+
+
+class UrlModelGetSerializer(serializers.ModelSerializer):
+    """
+    Link Serializer
+    """
+    class Meta:
+        """
+        Meta class
+        """
+        model = UrlModel
+        fields = '__all__'
