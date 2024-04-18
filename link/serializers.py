@@ -3,7 +3,7 @@ Serializers
 """
 
 from rest_framework import serializers
-from .models import UrlModel
+from .models import UrlModel, UserUrls
 
 
 class UrlModelSerializer(serializers.ModelSerializer):
@@ -28,4 +28,18 @@ class UrlModelGetSerializer(serializers.ModelSerializer):
         Meta class
         """
         model = UrlModel
+        fields = '__all__'
+
+
+class UserUrlSerializer(serializers.ModelSerializer):
+    """
+    User's URLs Serializer
+    """
+    url = UrlModelGetSerializer()
+
+    class Meta:
+        """
+        Metal Class
+        """
+        model = UserUrls
         fields = '__all__'

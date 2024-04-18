@@ -13,6 +13,7 @@ from .models import CustomUser
 import rest_framework.exceptions as exceptions
 from rest_framework import exceptions, serializers
 from .serializers import UserSerializer
+import jwt
 
 
 def get_tokens_for_user(user):
@@ -190,15 +191,25 @@ class CookieTokenRefreshView(jwt_views.TokenRefreshView):
             return Response("Invalid token", status=HTTP_400_BAD_REQUEST)
 
 
-class GetUserData(APIView):
+class GetUserInfo(APIView):
 
-    def get(self, request, id):
+    def get(self, request):
 
-        try:
-            user = CustomUser.objects.get(id=id)
-        except CustomUser.DoesNotExist:
-            return Response("Invalid Token", HTTP_401_UNAUTHORIZED)
+        access_token = request.COOKIES.get("jwt_access")
+        if access_token:
+            user_data = jwt.decode(jwt=access_token,
+                                   key=settings.SECRET_KEY,
+                                   verify=True,
+                                   algorithms=["HS256"])
 
-        user_data = UserSerializer(user).data
+            try:
+                user = CustomUser.objects.get(id=user_data["user_id"])
+                user_info = UserSerializer(user).data
 
-        return Response(user_data, status=HTTP_200_OK)
+                return Response(user_info, status=HTTP_200_OK)
+
+            except CustomUser.DoesNotExist:
+                return Response("Not authorized", HTTP_401_UNAUTHORIZED)
+
+        else:
+            return Response("Not authorized", HTTP_401_UNAUTHORIZED)

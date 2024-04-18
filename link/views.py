@@ -1,11 +1,14 @@
 from datetime import datetime
 from rest_framework.response import Response
 from rest_framework.decorators import APIView
-from rest_framework.status import HTTP_200_OK, HTTP_409_CONFLICT, HTTP_404_NOT_FOUND
+from rest_framework.status import HTTP_200_OK, HTTP_409_CONFLICT, HTTP_404_NOT_FOUND, HTTP_401_UNAUTHORIZED
 from .functions.generate_random_url import generate_random_url
-from .models import UrlModel
-from .serializers import UrlModelSerializer, UrlModelGetSerializer
+from .models import UrlModel, UserUrls
+from .serializers import UrlModelSerializer, UrlModelGetSerializer, UserUrlSerializer
 from django.middleware import csrf
+import jwt
+from django.conf import settings
+from login.models import CustomUser
 
 
 class Url(APIView):
@@ -59,6 +62,22 @@ class Url(APIView):
             new_url = CreateUrlObject(
                 short_url=short_url, long_url=long_url)
 
+            access_token = request.COOKIES.get("jwt_access")
+
+            if access_token:
+                user_data = jwt.decode(jwt=access_token,
+                                       key=settings.SECRET_KEY,
+                                       verify=True,
+                                       algorithms=["HS256"])
+
+                user = CustomUser.objects.get(id=user_data["user_id"])
+
+                # Update User Urls Model if user is logged in
+
+                UserUrls.objects.create(
+                    user=user,
+                    url=new_url)
+
             response = {
                 "message": "Url created successfully",
                 "url": UrlModelSerializer(new_url).data
@@ -78,3 +97,28 @@ class Url(APIView):
                 "message": "The url does not exist",
                 "code": 0}
             return Response(response, status=HTTP_404_NOT_FOUND)
+
+
+class UserUrl(APIView):
+
+    def get(self, request):
+
+        access_token = request.COOKIES.get("jwt_access")
+
+        if access_token:
+            user_data = jwt.decode(jwt=access_token,
+                                   key=settings.SECRET_KEY,
+                                   verify=True,
+                                   algorithms=["HS256"])
+
+            user = CustomUser.objects.get(id=user_data["user_id"])
+
+            # Get User Urls Model if user is logged in
+
+            user_urls = UserUrls.objects.filter(
+                user=user)
+
+            user_urls_data = UserUrlSerializer(user_urls, many=True).data
+            return Response(user_urls_data, status=HTTP_200_OK)
+        else:
+            return Response("Invalid Token", status=HTTP_401_UNAUTHORIZED)
