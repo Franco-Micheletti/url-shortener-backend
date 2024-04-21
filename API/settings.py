@@ -16,7 +16,7 @@ from dotenv import load_dotenv
 from datetime import timedelta
 import dj_database_url
 load_dotenv('.env')
-load_dotenv('production')
+load_dotenv('.env.production')
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -100,8 +100,8 @@ WSGI_APPLICATION = 'API.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-print(os.getenv("NIXPACKS_DEBUG_MODE"))
-if str(os.getenv("DEBUG_MODE")) == 'false':
+print(os.environ)
+if str(os.getenv("RAILWAY_DEBUG_MODE")) == 'false':
 
     # ------------------------ FOR DEVELOPMENT AT EXTERNAL DATABASE ------------------
 
