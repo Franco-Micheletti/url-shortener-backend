@@ -24,10 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = str(os.getenv('SECRET_KEY'))
+SECRET_KEY = str(os.environ["SECRET_KEY"])
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True if str(os.getenv('DEBUG_MODE')) == 'True' else False
+DEBUG = True if str(os.environ["DEBUG_MODE"]) == 'True' else False
 
 AUTH_USER_MODEL = 'login.CustomUser'
 
@@ -100,12 +100,11 @@ WSGI_APPLICATION = 'API.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-print(os.environ)
-if str(os.getenv("RAILWAY_DEBUG_MODE")) == 'false':
+if str(os.environ["DEBUG_MODE"]) == 'false':
 
     # ------------------------ FOR DEVELOPMENT AT EXTERNAL DATABASE ------------------
 
-    DATABASE_URL = os.getenv("DATABASE_URL")
+    DATABASE_URL = os.environ["DATABASE_URL"]
     DATABASES = {
         "default": dj_database_url.config(default=DATABASE_URL, conn_max_age=1800),
     }
