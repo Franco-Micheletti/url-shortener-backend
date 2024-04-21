@@ -100,7 +100,7 @@ WSGI_APPLICATION = 'API.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-print(os.environ)
+print(os.getenv("PRODUCTION_DEBUG_MODE"))
 if str(os.getenv("DEBUG_MODE")) == 'false':
 
     # ------------------------ FOR DEVELOPMENT AT EXTERNAL DATABASE ------------------
