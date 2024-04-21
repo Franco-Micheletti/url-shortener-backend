@@ -99,12 +99,12 @@ WSGI_APPLICATION = 'API.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
-if str(os.getenv('DEBUG_MODE')) == 'false':
+print(os.environ["DEBUG_MODE"])
+if str(os.environ["DEBUG_MODE"]) == 'false':
 
     # ------------------------ FOR DEVELOPMENT AT EXTERNAL DATABASE ------------------
 
-    DATABASE_URL = os.getenv("DATABASE_URL")
+    DATABASE_URL = os.environ["DATABASE_URL"]
     DATABASES = {
         "default": dj_database_url.config(default=DATABASE_URL, conn_max_age=1800),
     }
@@ -170,7 +170,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:5173',
-    'myshorturls.vercel.app'
+    'http://www.myshorturls.vercel.app'
 ]
 
 CORS_ORIGIN_ALLOW_ALL = False
