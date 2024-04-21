@@ -7,3 +7,4 @@ PyJWT==2.8.0
 python-dotenv==1.0.1
 rest_framework_simplejwt==0.0.2
 validators==0.28.1
+mysqlclient==2.1.1
