@@ -29,9 +29,6 @@ SECRET_KEY = str(os.getenv('SECRET_KEY'))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True if str(os.getenv('DEBUG_MODE')) == 'True' else False
 
-# ALLOWED HOSTS
-ALLOWED_HOSTS = os.getenv('SERVER_NAMES').split(' ')
-
 AUTH_USER_MODEL = 'login.CustomUser'
 
 # throttling
@@ -170,9 +167,12 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CORS
+
 CORS_ALLOWED_ORIGINS = [
-    'http://127.0.0.1:5173'
+    'http://127.0.0.1:5173',
+    'myshorturls.vercel.app'
 ]
+
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ALLOW_CREDENTIALS = True
 CORS_EXPOSE_HEADERS = ["Content-Type", "csrftoken"]
