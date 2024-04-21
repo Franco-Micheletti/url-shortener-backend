@@ -5,8 +5,6 @@ from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 import datetime
 import re
 
-# ------------------------------ SIGNUP ( REGISTRATION ) ----------------------------
-
 
 class Signup(APIView):
     def post(self, request):
@@ -45,7 +43,7 @@ class Signup(APIView):
                     return Response({"message": "Birthday is required for legal issues"}, status=HTTP_400_BAD_REQUEST)
                 # Check if the email is valid
                 if len(data["email"]) < 3 or "@" not in data["email"]:
-                    return Response({"message": "Email is required to activate your account after registration"}, status=HTTP_400_BAD_REQUEST)
+                    return Response({"message": "A valid email is required to activate your account after registration"}, status=HTTP_400_BAD_REQUEST)
                 # Check strong password
                 password_pattern = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$"
                 is_valid = re.match(password_pattern, data["password"])
@@ -69,13 +67,6 @@ class Signup(APIView):
 
                 user.set_password(data["password"])
                 user.save()
-
-                # Verification email
-
-                name = data["firstname"]
-                recipient_email = data["email"]
-
-                # verification_email(name, recipient_email, token_key, str(user.id))
 
                 response_body = {
 

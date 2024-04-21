@@ -33,10 +33,12 @@ class LoginView(APIView):
         response = Response()
         username = data.get('username', None)
         password = data.get('password', None)
+
         try:
             user = CustomUser.objects.get(username=username)
             password = user.check_password(password)
-        except:
+        except Exception as e:
+            print(e)
             return Response({"message": "Invalid username or password"}, status=HTTP_400_BAD_REQUEST)
         if user and password:
 

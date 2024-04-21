@@ -38,7 +38,7 @@ class Url(APIView):
 
             validation = validators.url(long_url)
 
-            if bool(validation) == False :
+            if bool(validation) == False:
                 return Response("URL is not valid", HTTP_400_BAD_REQUEST)
 
             # Generate short url
