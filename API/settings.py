@@ -99,12 +99,12 @@ WSGI_APPLICATION = 'API.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-print(os.getenv("DEBUG_MODE"))
+print(os.environ)
 if str(os.getenv("DEBUG_MODE")) == 'false':
 
     # ------------------------ FOR DEVELOPMENT AT EXTERNAL DATABASE ------------------
 
-    DATABASE_URL = os.environ["DATABASE_URL"]
+    DATABASE_URL = os.getenv("DATABASE_URL")
     DATABASES = {
         "default": dj_database_url.config(default=DATABASE_URL, conn_max_age=1800),
     }
