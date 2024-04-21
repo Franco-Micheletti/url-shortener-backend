@@ -70,8 +70,8 @@ class LoginView(APIView):
             csrf.get_token(request)
 
             response.data = {"message": "Login Successfully",
-                             "refresh": data['refresh'],
-                             "access": data['access'],
+                             "refresh_token": data['refresh'],
+                             "access_token": data['access'],
                              "expires_in": settings.SIMPLE_JWT['ACCESS_TOKEN_LIFETIME']}
             return response
             # else:
@@ -182,7 +182,7 @@ class CookieTokenRefreshView(jwt_views.TokenRefreshView):
                 samesite=settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE']
             )
 
-            response.data = {"jwt_access": str(
+            response.data = {"access_token": str(
                 serializer.validated_data['access'])}
 
             # Add this to the response data if you want to update the refresh token along with access token

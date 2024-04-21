@@ -34,6 +34,23 @@ ALLOWED_HOSTS = os.getenv('SERVER_NAMES').split(' ')
 
 AUTH_USER_MODEL = 'login.CustomUser'
 
+# throttling
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+    }
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.ScopedRateThrottle'
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'link': '3/min',
+    }
+}
+
 # Application definition
 
 INSTALLED_APPS = [

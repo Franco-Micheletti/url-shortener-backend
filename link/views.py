@@ -1,6 +1,7 @@
 from datetime import datetime
 from rest_framework.response import Response
 from rest_framework.decorators import APIView
+from rest_framework.throttling import ScopedRateThrottle
 from rest_framework.status import HTTP_200_OK, HTTP_409_CONFLICT, HTTP_404_NOT_FOUND, HTTP_401_UNAUTHORIZED, HTTP_201_CREATED, HTTP_400_BAD_REQUEST
 from .functions.generate_random_url import generate_random_url
 from .models import UrlModel, UserUrls
@@ -14,6 +15,7 @@ import validators
 
 
 class Url(APIView):
+    throttle_scope = 'link'
 
     def post(self, request):
 
