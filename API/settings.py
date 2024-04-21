@@ -44,7 +44,7 @@ REST_FRAMEWORK = {
         'rest_framework.throttling.ScopedRateThrottle'
     ],
     'DEFAULT_THROTTLE_RATES': {
-        'link': '3/min',
+        'link': '10/min',
     }
 }
 
