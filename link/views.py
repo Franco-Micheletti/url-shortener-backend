@@ -15,7 +15,7 @@ import validators
 
 
 class Url(APIView):
-    throttle_scope = 'link'
+    throttle_scope = 'url'
 
     def post(self, request):
 
@@ -109,6 +109,7 @@ class Url(APIView):
 
 
 class UserUrl(APIView):
+    throttle_scope = 'user_url'
 
     def get(self, request):
 

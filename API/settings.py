@@ -47,7 +47,9 @@ REST_FRAMEWORK = {
         'rest_framework.throttling.ScopedRateThrottle'
     ],
     'DEFAULT_THROTTLE_RATES': {
-        'link': '10/min',
+        'url': '10/min',
+        'user_url': '10/min',
+        'login': '10/min'
     }
 }
 

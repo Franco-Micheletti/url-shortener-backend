@@ -25,6 +25,7 @@ def get_tokens_for_user(user):
 
 
 class LoginView(APIView):
+    throttle_scope = 'login'
 
     @permission_classes((IsAuthenticated))
     def post(self, request, format=None):
