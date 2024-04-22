@@ -33,7 +33,7 @@ AUTH_USER_MODEL = 'login.CustomUser'
 
 
 ALLOWED_HOSTS = (os.environ["ALLOWED_HOSTS"]).split(' ')
-print(ALLOWED_HOSTS)
+
 # throttling
 
 CACHES = {
@@ -67,8 +67,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -173,7 +173,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:5173',
-    'https://myshorturls.vercel.app'
+    'https://myshorturls.vercel.app',
 ]
 
 CORS_ORIGIN_ALLOW_ALL = False
