@@ -31,7 +31,7 @@ DEBUG = True if str(os.environ["DEBUG_MODE"]) == 'True' else False
 
 AUTH_USER_MODEL = 'login.CustomUser'
 
-ALLOWED_HOSTS = (os.environ["ALLOWED_HOSTS"]).split('')
+ALLOWED_HOSTS = (os.environ["ALLOWED_HOSTS"]).split(' ')
 
 # throttling
 
